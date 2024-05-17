@@ -1,0 +1,45 @@
+.add_heading {
+    font-size: 1.5rem;
+}
+
+.card_body {
+    position: relative;
+}
+
+.cross_button {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    border-radius: 50%;
+    background-color: red;
+    border: none;
+    font-size: 1rem;
+}
+
+.add {
+    font-size: 1rem;
+}
+
+.add_input {
+    width: 100%;
+    height: 2rem;
+}
+
+.add_button {
+    font-size: 1rem;
+}
+
+@media screen and (max-width:500px) {
+    .add_heading {
+        font-size: 1rem;
+    }
+    .add {
+        font-size: 0.8rem;
+    }
+    .add_input {
+        height: 1.8rem;
+    }
+    .add_button {
+        font-size: 0.9rem;
+    }
+}

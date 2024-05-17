@@ -19,3 +19,10 @@
 .border-color tr {
     color: red !important;
 }
+
+.form_button {
+    background: black !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    width: 20%;
+}

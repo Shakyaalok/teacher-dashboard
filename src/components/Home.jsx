@@ -1,8 +1,14 @@
 import React from 'react'
 import NavbarDashBoard from './NavbarDashBoard'
-import { Button,Card,Table } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
-const Home = () => {
+const Home = (props) => {
+
+  //show the add form
+  const AddHandler = ()=>{
+    props.onAdd(true)
+  };
+  
   return (
     <div>
         <NavbarDashBoard/>
@@ -18,9 +24,9 @@ const Home = () => {
                 </form>
               </div>    
               </div>  
-              <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green"}}><h2><b>Student Details</b></h2></div>
+              <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green"}}><h4><b>Student Details</b></h4></div>
               <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-              <Button variant="primary" >
+              <Button variant="primary" onClick={AddHandler}>
                 + New Student
               </Button>
              </div>
