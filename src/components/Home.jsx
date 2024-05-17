@@ -1,8 +1,12 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import NavbarDashBoard from './NavbarDashBoard'
-import { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap';
+import StudentContext from '../store/student-context';
 
 const Home = (props) => {
+
+  const studentCtx = useContext(StudentContext);
+  console.log('studentCtx-->',studentCtx)
 
   //show the add form
   const AddHandler = ()=>{

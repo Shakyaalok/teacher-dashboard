@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {Navbar,Container,Nav} from 'react-bootstrap'
-import './NavbarDashBoard.css'
+import './NavbarDashBoard.css';
+import StudentProvider from '../store/StudentProvider';
 
 const NavbarDashBoard = () => {
   return (
-    <div>
+    <StudentProvider>
     <Navbar expand="lg" className="navbar_header">
     <Container className='navbar_content'>
       <Navbar.Brand as={Link} to="/dashboard" className='navbar-link'>DashBoard</Navbar.Brand>
@@ -20,7 +21,7 @@ const NavbarDashBoard = () => {
   </Navbar>
 
 
-    </div>
+    </StudentProvider>
 );
   
 }
