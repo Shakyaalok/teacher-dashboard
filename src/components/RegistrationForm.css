@@ -1,0 +1,21 @@
+.register_form {
+    background-color: rgb(195, 195, 195);
+    height: 100vh;
+}
+
+.container_form {
+    border: 2px solid black;
+    border: none;
+    background: white;
+    position: relative;
+    top: 10%;
+    padding: 2rem 1rem;
+    width: 30%;
+}
+
+.form_button {
+    background: black !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    width: 20%;
+}
