@@ -8,6 +8,10 @@ const Home = (props) => {
   const AddHandler = ()=>{
     props.onAdd(true)
   };
+
+  const EditHandler = () =>{
+    props.onEdit(true)
+  }
   
   return (
     <div>
@@ -51,7 +55,7 @@ const Home = (props) => {
                             <td>Math</td>
                             <td>98</td>
                             <td>
-                                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons" onClick={EditHandler}>&#xE254;</i></a>
                                 <a href="#" class="delete" title="Delete" data-toggle="tooltip" style={{color:"red"}}><i class="material-icons">&#xE872;</i></a>
                                 
                             </td>

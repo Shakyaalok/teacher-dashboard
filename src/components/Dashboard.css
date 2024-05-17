@@ -1,0 +1,28 @@
+.dashboard {
+    position: relative;
+    background: black;
+}
+
+.img_text {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.img_text>h3 {
+    background-color: black;
+    color: white;
+}
+
+.explore_button {
+    background-color: black !important;
+    border: none !important;
+}
+
+@media screen and (max-width:570px) {
+    .img_text {
+        left: 28%;
+    }
+}

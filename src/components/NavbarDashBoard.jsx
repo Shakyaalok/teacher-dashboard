@@ -8,7 +8,7 @@ const NavbarDashBoard = () => {
     <div>
     <Navbar expand="lg" className="navbar_header">
     <Container className='navbar_content'>
-      <Navbar.Brand href="#home" className='navbar-link'>DashBoard</Navbar.Brand>
+      <Navbar.Brand as={Link} to="/dashboard" className='navbar-link'>DashBoard</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
