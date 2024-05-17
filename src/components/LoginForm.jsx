@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import "./RegistrationForm.css";
 
@@ -9,6 +10,10 @@ const LoginForm = () => {
     const [password,setPassword] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage,setErrorMessage] = useState('')
+
+    //navigation
+    const navigate = useNavigate()
+
 
     //handling the data of the register-teacher
   
@@ -39,6 +44,7 @@ const LoginForm = () => {
         // clearing the data after entering
         setEmail('');
         setPassword('');
+        navigate('/dashboard')
     }
 
 

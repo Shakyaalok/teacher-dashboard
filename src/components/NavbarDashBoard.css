@@ -1,0 +1,19 @@
+.navbar_header {
+    background-color: #2874f0;
+    color: white !important;
+}
+
+.navbar-link {
+    color: white !important;
+}
+
+.navbar_content {
+    display: flex;
+    gap: 40rem;
+}
+
+@media screen and (max-width:991px) {
+    .navbar_content {
+        gap: 0rem;
+    }
+}

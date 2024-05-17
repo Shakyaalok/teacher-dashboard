@@ -10,3 +10,12 @@
     text-align: center;
     margin-bottom: 1rem;
 }
+
+.table-header>tr>th {
+    background: #2874f0 !important;
+    color: white;
+}
+
+.border-color tr {
+    color: red !important;
+}
