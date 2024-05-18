@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import axios from 'axios';
 import "./RegistrationForm.css";
 
 const LoginForm = () => {
@@ -25,7 +26,7 @@ const LoginForm = () => {
     }
 
     // print the data enter
-    const RegsiterDataHandler = (e) =>{
+    const LoginDataHandler = async(e) =>{
         e.preventDefault();
 
         if (email === "" || password === "" ||password.length === 0) {
@@ -33,18 +34,34 @@ const LoginForm = () => {
             return;
           }
     
-          
+     
         const data = {
             email:email,
             password:password
         }
+        console.log(data)
        
         console.log('Register data--> ',data);
+       
+        try {
+          const res = await axios.post('http://localhost:8000/teacher/login',data);
+          if(res.status===200){
+            navigate('/dashboard')
+          }
+        } catch (error) {
+          console.log(error.response)
+          if(error.response.status===500){
+            setErrorMessage(error.response.data.message)
+          }
+          if(error.response.status===404){
+            setErrorMessage(error.response.data.message)
+          }
+        }
+
 
         // clearing the data after entering
         setEmail('');
         setPassword('');
-        navigate('/dashboard')
     }
 
 
@@ -58,7 +75,7 @@ const LoginForm = () => {
 
   return (
     <div className="register_form">
-      <Form className="container container_form" onSubmit={RegsiterDataHandler}>
+      <Form className="container container_form" onSubmit={LoginDataHandler}>
       <h4 className="form_title">Login</h4>
       <div className="error">
         {errorMessage}
@@ -67,9 +84,6 @@ const LoginForm = () => {
         <Form.Group className="mb-3" >
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" onChange={emailHandler} value={email}/>
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3">
