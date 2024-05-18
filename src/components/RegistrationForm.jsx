@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import axios from "axios";
 import "./RegistrationForm.css";
 
 const RegistrationForm = () => {
@@ -9,7 +10,7 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const [errorMessage,setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState("");
 
   //navigation after successfull register
   const navigate = useNavigate();
@@ -26,14 +27,18 @@ const RegistrationForm = () => {
   };
 
   // print the data enter
-  const RegsiterDataHandler = (e) => {
+  const RegsiterDataHandler = async (e) => {
     e.preventDefault();
     // Validate form data
-    if (name === "" ||email === "" || password === "" ||password.length === 0) {
+    if (
+      name === "" ||
+      email === "" ||
+      password === "" ||
+      password.length === 0
+    ) {
       setError(true);
       return;
     }
-    
 
     const data = {
       name: name,
@@ -41,34 +46,37 @@ const RegistrationForm = () => {
       password: password,
     };
 
-    console.log("Register data--> ", data);
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/teacher/register",
+        data
+      );
+      if (res.status === 201) {
+        navigate("/login");
+      }
+    } catch (error) {
+      if (error.response.status === 500) {
+        setErrorMessage(error.response.data.message);
+      }
+    }
 
     // clearing the data after entering
     setName("");
     setEmail("");
     setPassword("");
-
-
-    navigate("/login");
-    
   };
 
-
-  useEffect(()=>{
-    if(error){
-      setErrorMessage('All Fields are required');
+  useEffect(() => {
+    if (error) {
+      setErrorMessage("All Fields are required");
     }
-
-  
-  },[error])
+  }, [error]);
 
   return (
     <div className="register_form">
       <Form className="container container_form" onSubmit={RegsiterDataHandler}>
         <h4 className="form_title">Registration</h4>
-        <div className="error">
-        {errorMessage}
-        </div>
+        <div className="error">{errorMessage}</div>
         <Form.Group className="mb-3">
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -77,9 +85,7 @@ const RegistrationForm = () => {
             onChange={namehandler}
             value={name}
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
+         
         </Form.Group>
 
         <Form.Group className="mb-3">
@@ -90,9 +96,6 @@ const RegistrationForm = () => {
             onChange={emailHandler}
             value={email}
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3">
