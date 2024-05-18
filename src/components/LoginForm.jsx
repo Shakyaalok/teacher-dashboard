@@ -49,13 +49,7 @@ const LoginForm = () => {
             navigate('/dashboard')
           }
         } catch (error) {
-          console.log(error.response)
-          if(error.response.status===500){
-            setErrorMessage(error.response.data.message)
-          }
-          if(error.response.status===404){
-            setErrorMessage(error.response.data.message)
-          }
+          setErrorMessage(error.response.data.message);
         }
 
 

@@ -55,9 +55,7 @@ const RegistrationForm = () => {
         navigate("/login");
       }
     } catch (error) {
-      if (error.response.status === 500) {
-        setErrorMessage(error.response.data.message);
-      }
+      setErrorMessage(error.response.data.message);
     }
 
     // clearing the data after entering
