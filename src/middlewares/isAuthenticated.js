@@ -1,5 +1,5 @@
 // auth.js
-export const auth = () => {
+export const isAuthenticated = () => {
     const token = localStorage.getItem('token');
     if (!token) return false;
 
@@ -16,3 +16,5 @@ export const auth = () => {
 
     return true;
 };
+
+export default isAuthenticated
