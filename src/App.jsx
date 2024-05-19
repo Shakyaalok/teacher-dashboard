@@ -15,6 +15,7 @@ function App() {
 
   const [showForm,setShowForm] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [editData,setEditData] = useState('')
   
   const showAddHandler = (data) =>{
      setShowForm(data)
@@ -26,7 +27,14 @@ function App() {
   }
 
   const EditOneHandler = (data)=>{
-    setShowEdit(true)
+    
+    const updatedData = {
+      name:data.name,
+      subject:data.subject,
+      marks:data.marks
+    }
+    setEditData(updatedData)
+    setShowEdit(data.isEdit)
   }
 
   const HideEditOne = (data)=>{
@@ -41,7 +49,7 @@ function App() {
     <Router>
     <StudentProvider>
      { showForm && <AddNew onCloseAdd={HideAddHandler}/>}
-     {showEdit && <EditOne onCloseEdit={HideEditOne} />}
+     {showEdit && <EditOne onCloseEdit={HideEditOne} data={editData}/>}
     <Routes>
       <Route path='/' element={<RegistrationForm/>}/>
       <Route exact path='/login' element={<LoginForm/>}/>
