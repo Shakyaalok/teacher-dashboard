@@ -1,10 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import {Navbar,Container,Nav} from 'react-bootstrap'
 import './NavbarDashBoard.css';
 import StudentProvider from '../store/StudentProvider';
 
 const NavbarDashBoard = () => {
+
+  const navigate = useNavigate();
+   const logoutHandler = ()=>{
+    localStorage.removeItem('token');
+    navigate('/login')
+
+   }
   return (
     // <StudentProvider>
     <Navbar expand="lg" className="navbar_header">
@@ -14,7 +21,7 @@ const NavbarDashBoard = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link as={Link} to="/dashboard/home" className='navbar-link'>Home</Nav.Link>
-          <Nav.Link href="#link" className='navbar-link'>Logout</Nav.Link>
+          <Nav.Link href="#link" className='navbar-link' onClick={logoutHandler}>Logout</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Container>
