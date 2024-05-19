@@ -6,7 +6,7 @@ import StudentProvider from '../store/StudentProvider';
 
 const NavbarDashBoard = () => {
   return (
-    <StudentProvider>
+    // <StudentProvider>
     <Navbar expand="lg" className="navbar_header">
     <Container className='navbar_content'>
       <Navbar.Brand as={Link} to="/dashboard" className='navbar-link'>DashBoard</Navbar.Brand>
@@ -21,7 +21,7 @@ const NavbarDashBoard = () => {
   </Navbar>
 
 
-    </StudentProvider>
+    // </StudentProvider>
 );
   
 }

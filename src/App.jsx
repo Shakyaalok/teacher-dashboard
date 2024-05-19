@@ -9,6 +9,7 @@ import Home from './components/Home';
 import AddNew from './components/AddNew';
 import { useState } from 'react';
 import EditOne from './components/EditOne';
+import StudentProvider from './store/StudentProvider';
 
 function App() {
 
@@ -38,14 +39,18 @@ function App() {
   return (
     
     <Router>
+    <StudentProvider>
      { showForm && <AddNew onCloseAdd={HideAddHandler}/>}
      {showEdit && <EditOne onCloseEdit={HideEditOne} />}
     <Routes>
       <Route path='/' element={<RegistrationForm/>}/>
       <Route exact path='/login' element={<LoginForm/>}/>
-      <Route exact path='/dashboard' element={<DashBoard/>}/>
-      <Route exact path='/dashboard/home' element={<Home onAdd = {showAddHandler}  onEdit={EditOneHandler}/>}/>
+      <Route exact path='/dashboard' element={
+            <DashBoard/>
+        }/>
+      <Route exact path='/dashboard/home' element={ <Home onAdd = {showAddHandler}  onEdit={EditOneHandler}/>}/>
     </Routes>
+    </StudentProvider>
     </Router>
   );
 }
