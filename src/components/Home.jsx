@@ -28,16 +28,20 @@ const Home = (props) => {
           }
         );
         if(res.status===200){
-          res.data.data.forEach((student)=>{
-            studentCtx.addStudent(student)
-            // studentCtx.addStudent(student)
-          })
+          const newStudents = res.data.data.filter(newStudent => (
+            !studentCtx.students.some(existingStudent => existingStudent.id === newStudent.id)
+          ));
+          newStudents.forEach(student => {
+            studentCtx.addStudent(student);
+          });
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchedSutudents();
+
+
   }, []);
 
 

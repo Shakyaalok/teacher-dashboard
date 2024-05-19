@@ -37,7 +37,7 @@ const StudentProvider = (props) => {
   // }
 
   const addStudentHandler = (student)=>{
-    setStudents((prevStudents) => [...prevStudents, student]);
+    setStudents((prevState)=>[...prevState,student]);
   }
 
   useEffect(()=>{
