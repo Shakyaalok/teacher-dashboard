@@ -6,8 +6,9 @@ import axios from "axios";
 
 const Home = (props) => {
   const studentCtx = useContext(StudentContext);
-
-  const [errorMessage,setErrorMessage] = useState('')
+  const [result, setResult]= useState([]);
+  const [errorMessage,setErrorMessage] = useState('');
+  const [searchedStudents,setSearchedStudents] = useState('')
 
 
   //show the add form
@@ -38,33 +39,53 @@ const Home = (props) => {
    }
   }
 
+  //filter students
+  const searchStudentHandler = (e)=>{
+    setSearchedStudents(e.target.value);
+  }
+
+  const submitSearchHandler = async(e)=>{
+    e.preventDefault();
+    fetchedSutudents();
+  }
+
+
+  const fetchedSutudents = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      let endPoint = searchedStudents
+      ? `http://localhost:8000/student/all/records?query=${searchedStudents}`
+      : "http://localhost:8000/student/all/records";
+
+      const res = await axios.get(endPoint, { headers: { Authorization: token } });
+      console.log('resres',res)
+      if(res.status===200){
+          if(!res.data.data.length){
+            setErrorMessage('No Match found')
+          }else{
+            setErrorMessage('')
+            setResult(res.data.data)
+          }
+          
+      }
+    } catch (error) {
+      setErrorMessage(error.data.response.message)
+    }
+  };
   //all records fetched
   useEffect(() => {
-    const fetchedSutudents = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const res = await axios.get(
-          "http://localhost:8000/student/all/records",
-          {
-            headers: { Authorization: token },
-          }
-        );
-        if(res.status===200){
-          const newStudents = res.data.data.filter(newStudent => (
-            !studentCtx.students.some(existingStudent => existingStudent.id === newStudent.id)
-          ));
-          newStudents.forEach(student => {
-            studentCtx.addStudent(student);
-          });
-        }
-      } catch (error) {
-        setErrorMessage(error.data.response.message)
-      }
-    };
     fetchedSutudents();
-
-
   }, []);
+
+
+  useEffect(()=>{
+    result.forEach((student)=>{
+      studentCtx.addStudent(student)
+    })
+    
+  },[result])
+
+  
 
 
   return (
@@ -75,12 +96,14 @@ const Home = (props) => {
           <div class="row ">
             <div class="col-sm-3 mt-5 mb-4 text-gred">
               <div className="search">
-                <form class="form-inline">
+                <form class="form-inline" onSubmit={submitSearchHandler}>
                   <input
                     class="form-control mr-sm-2"
                     type="search"
                     placeholder="Search Student"
                     aria-label="Search"
+                    onChange={searchStudentHandler}
+                    value = {searchedStudents}
                   />
                 </form>
               </div>
@@ -101,8 +124,9 @@ const Home = (props) => {
           </div>
           <div class="row">
             <div class="table-responsive">
+            <div className="error">{errorMessage}</div>
               <table class="table table-striped table-hover table-bordered">
-                <div className="error">{errorMessage}</div>
+      
                 <thead className="table-header">
                   <tr>
                     <th>S.No</th>
@@ -113,7 +137,7 @@ const Home = (props) => {
                   </tr>
                 </thead>
                 <tbody className="border-color">
-                  {studentCtx.students.map((student,index)=>(
+                  {result.map((student,index)=>(
                        <tr key={student.id}>
                        <td>{index+1}</td>
                        <td>{student.name}</td>

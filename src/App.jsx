@@ -53,7 +53,7 @@ function App() {
      { showForm && <AddNew onCloseAdd={HideAddHandler}/>}
      {showEdit && <EditOne onCloseEdit={HideEditOne} data={editData}/>}
     <Routes>
-      <Route path='/' element={<AuthRoute  element={<RegistrationForm/>}/>}/>
+      <Route path='/' element={<AuthRoute element={<RegistrationForm/>}/>}/>
       <Route exact path='/login'   element={<AuthRoute element={<LoginForm/>}/>}/>
       <Route exact path='/dashboard'  element={<RouteProtection element={<DashBoard/>}/>} />
       < Route exact path='/dashboard/home' element={<RouteProtection element={<Home onAdd={showAddHandler} onEdit={editOneHandler} />}/>}/>

@@ -50,7 +50,6 @@ const StudentProvider = (props) => {
   const [studentState, dispatcher] = useReducer(studentReducer, initalState);
 
   const addStudentHandler = (student) => {
-    console.log("students----------->", student);
     dispatcher({ type: "ADD", student: student });
   };
 
