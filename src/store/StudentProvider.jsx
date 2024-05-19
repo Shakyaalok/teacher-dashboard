@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, {useReducer } from "react";
 import StudentContext from "./student-context";
 
 const initalState = {
@@ -29,6 +29,16 @@ const studentReducer = (state, action) => {
     };
   }
 
+
+  // remove the student handle
+  if(action.type==='REMOVE'){
+    const updatedStudents = state.students.filter((student)=>student.id!==action.id);
+    return {
+      ...state,
+      students:updatedStudents
+    }
+  }
+
  
 
 
@@ -36,7 +46,6 @@ const studentReducer = (state, action) => {
 };
 
 const StudentProvider = (props) => {
-  // const [students, setStudents] = useState([]);/
 
   const [studentState, dispatcher] = useReducer(studentReducer, initalState);
 
@@ -45,18 +54,20 @@ const StudentProvider = (props) => {
     dispatcher({ type: "ADD", student: student });
   };
 
-  // const removeStudentHandler = (id)=>{
-
-  // }
+  const removeStudentHandler = (id)=>{
+        dispatcher({type:'REMOVE',id:id})
+  }
 
 
 
   const context = {
     students: studentState.students,
     addStudent: addStudentHandler,
-    removeStudent: (id) => {},
+    removeStudent: removeStudentHandler,
     message: "this is working or not",
   };
+
+
   return (
     <StudentContext.Provider value={context}>
       {props.children}

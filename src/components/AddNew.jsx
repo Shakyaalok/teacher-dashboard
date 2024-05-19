@@ -10,7 +10,8 @@ const AddNew = (props) => {
 
   const [name,setName] = useState('');
   const [subject,setSubject] = useState('');
-  const [marks,setMarks] = useState('')
+  const [marks,setMarks] = useState('');
+  const [errorMessage,setErrorMessage] = useState('')
 
   const studentCtx = useContext(studentContext);
   console.log(studentCtx,'sfsf')
@@ -42,24 +43,19 @@ const AddNew = (props) => {
     }
   
     const token = localStorage.getItem('token')
-    const res = await axios.post('http://localhost:8000/student/add',data,{headers:{Authorization:token}});
-    if(res.status===201){
-      console.log(res)
-      // const newStudent = res.data.data;
-      // if (!studentCtx.students.some(existingStudent => existingStudent.id !== newStudent.id)) {
-      //   studentCtx.addStudent(newStudent);
-      // }
-      studentCtx.addStudent(res.data.data)
-      closeHandler();
+    try {
+      const res = await axios.post('http://localhost:8000/student/add',data,{headers:{Authorization:token}});
+      if(res.status===201){
+        studentCtx.addStudent(res.data.data)
+        closeHandler();
+      }
+  
+    } catch (error) {
+      setErrorMessage(error.response.data.message)
     }
-
     setName('');
     setSubject('');
     setMarks('');
-
-
-    console.log(data)
-
   }
 
   return (
@@ -70,6 +66,7 @@ const AddNew = (props) => {
         <Card.Title className='text-center add_heading'>Add New Records</Card.Title>
         <Button className='cross_button' onClick={closeHandler} >X</Button>
 
+        <div className="error">{errorMessage}</div>
         <Form onSubmit={addnewHandler}>
         <Form.Group className="mb-3" >
           <Form.Label className='add'>Name</Form.Label>

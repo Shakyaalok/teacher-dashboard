@@ -7,14 +7,36 @@ import axios from "axios";
 const Home = (props) => {
   const studentCtx = useContext(StudentContext);
 
+  const [errorMessage,setErrorMessage] = useState('')
+
+
   //show the add form
   const AddHandler = () => {
     props.onAdd(true);
   };
 
-  const EditHandler = () => {
-    props.onEdit(true);
+  const EditHandler = (id) => {
+    const student = studentCtx.students.find((student)=>student.id===id);
+    const {name,subject,marks} = student
+     const data = {
+      name,subject,marks,isEdit:true
+     }
+    props.onEdit(data);
+
+
   };
+
+  const deleteHandler = async(id) =>{
+    const token = localStorage.getItem('token');
+   try {
+    const res = await axios.delete(`http://localhost:8000/student/remove/${id}`,{headers:{Authorization:token}})
+    if(res.status===200){
+      studentCtx.removeStudent(id)
+    }
+   } catch (error) {
+       setErrorMessage(error.data.response.message)
+   }
+  }
 
   //all records fetched
   useEffect(() => {
@@ -36,7 +58,7 @@ const Home = (props) => {
           });
         }
       } catch (error) {
-        console.log(error);
+        setErrorMessage(error.data.response.message)
       }
     };
     fetchedSutudents();
@@ -80,6 +102,7 @@ const Home = (props) => {
           <div class="row">
             <div class="table-responsive">
               <table class="table table-striped table-hover table-bordered">
+                <div className="error">{errorMessage}</div>
                 <thead className="table-header">
                   <tr>
                     <th>S.No</th>
@@ -103,7 +126,7 @@ const Home = (props) => {
                            title="Edit"
                            data-toggle="tooltip"
                          >
-                           <i class="material-icons" onClick={EditHandler}>
+                           <i class="material-icons" onClick={()=>EditHandler(student.id)}>
                              &#xE254;
                            </i>
                          </a>
@@ -114,7 +137,7 @@ const Home = (props) => {
                            data-toggle="tooltip"
                            style={{ color: "red" }}
                          >
-                           <i class="material-icons">&#xE872;</i>
+                           <i class="material-icons" onClick={()=>deleteHandler(student.id)}>&#xE872;</i>
                          </a>
                        </td>
                      </tr>
