@@ -49,6 +49,7 @@ const EditOne = (props) => {
         if(res.status===201){
           studentCtx.addStudent(res.data.data)
           closeEditHandler();
+          await props.fetchedSutudents();
         }
     
       } catch (error) {

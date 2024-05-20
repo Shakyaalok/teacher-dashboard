@@ -6,21 +6,21 @@ import axios from "axios";
 
 const Home = (props) => {
   const studentCtx = useContext(StudentContext);
-  const [result, setResult]= useState([]);
   const [errorMessage,setErrorMessage] = useState('');
   const [searchedStudents,setSearchedStudents] = useState('')
 
 
   //show the add form
   const AddHandler = () => {
-    props.onAdd(true);
+
+    props.onAdd({isAdd:true,fetchedSutudents});
   };
 
   const EditHandler = (id) => {
     const student = studentCtx.students.find((student)=>student.id===id);
     const {name,subject,marks} = student
      const data = {
-      name,subject,marks,isEdit:true
+      name,subject,marks,isEdit:true,fetchedSutudents
      }
     props.onEdit(data);
 
@@ -32,10 +32,12 @@ const Home = (props) => {
    try {
     const res = await axios.delete(`http://localhost:8000/student/remove/${id}`,{headers:{Authorization:token}})
     if(res.status===200){
-      studentCtx.removeStudent(id)
+      studentCtx.removeStudent(id);
+      
+     fetchedSutudents();
     }
    } catch (error) {
-       setErrorMessage(error.data.response.message)
+       setErrorMessage('No record found')
    }
   }
 
@@ -58,13 +60,13 @@ const Home = (props) => {
       : "http://localhost:8000/student/all/records";
 
       const res = await axios.get(endPoint, { headers: { Authorization: token } });
-      console.log('resres',res)
       if(res.status===200){
           if(!res.data.data.length){
-            setErrorMessage('No Match found')
+            setErrorMessage('Nothing to search');
+           studentCtx.searchStudents([]);
           }else{
             setErrorMessage('')
-            setResult(res.data.data)
+            studentCtx.searchStudents(res.data.data);
           }
           
       }
@@ -72,18 +74,13 @@ const Home = (props) => {
       setErrorMessage(error.data.response.message)
     }
   };
+
   //all records fetched
   useEffect(() => {
     fetchedSutudents();
   }, []);
 
 
-  useEffect(()=>{
-    result.forEach((student)=>{
-      studentCtx.addStudent(student)
-    })
-    
-  },[result])
 
   
 
@@ -91,14 +88,14 @@ const Home = (props) => {
   return (
     <div>
       <NavbarDashBoard />
-      <div class="container ">
+      <div className="container ">
         <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
-          <div class="row ">
-            <div class="col-sm-3 mt-5 mb-4 text-gred">
+          <div className="row ">
+            <div className="col-sm-3 mt-5 mb-4 text-gred">
               <div className="search">
-                <form class="form-inline" onSubmit={submitSearchHandler}>
+                <form className="form-inline" onSubmit={submitSearchHandler}>
                   <input
-                    class="form-control mr-sm-2"
+                    className="form-control mr-sm-2"
                     type="search"
                     placeholder="Search Student"
                     aria-label="Search"
@@ -109,23 +106,23 @@ const Home = (props) => {
               </div>
             </div>
             <div
-              class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
+              className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
               style={{ color: "green" }}
             >
               <h4>
                 <b>Student Details</b>
               </h4>
             </div>
-            <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
+            <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
               <Button variant="primary" onClick={AddHandler}>
                 + New Student
               </Button>
             </div>
           </div>
-          <div class="row">
-            <div class="table-responsive">
+          <div className="row">
+            <div className="table-responsive">
             <div className="error">{errorMessage}</div>
-              <table class="table table-striped table-hover table-bordered">
+              <table className="table table-striped table-hover table-bordered">
       
                 <thead className="table-header">
                   <tr>
@@ -137,7 +134,7 @@ const Home = (props) => {
                   </tr>
                 </thead>
                 <tbody className="border-color">
-                  {result.map((student,index)=>(
+                  {studentCtx.students.map((student,index)=>(
                        <tr key={student.id}>
                        <td>{index+1}</td>
                        <td>{student.name}</td>
@@ -146,22 +143,22 @@ const Home = (props) => {
                        <td>
                          <a
                            href="#"
-                           class="edit"
+                           className="edit"
                            title="Edit"
                            data-toggle="tooltip"
                          >
-                           <i class="material-icons" onClick={()=>EditHandler(student.id)}>
+                           <i className="material-icons" onClick={()=>EditHandler(student.id)}>
                              &#xE254;
                            </i>
                          </a>
                          <a
                            href="#"
-                           class="delete"
+                           className="delete"
                            title="Delete"
                            data-toggle="tooltip"
                            style={{ color: "red" }}
                          >
-                           <i class="material-icons" onClick={()=>deleteHandler(student.id)}>&#xE872;</i>
+                           <i className="material-icons" onClick={()=>deleteHandler(student.id)}>&#xE872;</i>
                          </a>
                        </td>
                      </tr>

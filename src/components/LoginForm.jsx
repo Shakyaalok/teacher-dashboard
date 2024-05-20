@@ -39,13 +39,10 @@ const LoginForm = () => {
             email:email,
             password:password
         }
-        console.log(data)
-       
-        console.log('Register data--> ',data);
        
         try {
           const res = await axios.post('http://localhost:8000/teacher/login',data);
-          console.log(res)
+         
           if(res.status===200){
             const token = res.data.token
             localStorage.setItem('token',token)

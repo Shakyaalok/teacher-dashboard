@@ -33,13 +33,20 @@ const studentReducer = (state, action) => {
   // remove the student handle
   if(action.type==='REMOVE'){
     const updatedStudents = state.students.filter((student)=>student.id!==action.id);
+   
     return {
       ...state,
       students:updatedStudents
     }
   }
 
- 
+
+  if(action.type==='SET'){
+    return {
+      ...state,
+      students:action.students
+    }
+  }
 
 
   return initalState;
@@ -57,12 +64,17 @@ const StudentProvider = (props) => {
         dispatcher({type:'REMOVE',id:id})
   }
 
+  const setStudentsHandler = (students) => {
+    dispatcher({ type: "SET", students: students });
+  };
+
 
 
   const context = {
     students: studentState.students,
     addStudent: addStudentHandler,
     removeStudent: removeStudentHandler,
+    searchStudents: setStudentsHandler,
     message: "this is working or not",
   };
 

@@ -3,10 +3,12 @@ import Modal from '../modals/Modals';
 import { Card ,Button,Form} from 'react-bootstrap'
 import './AddNew.css';
 import studentContext from '../store/student-context'
-import axios from 'axios'
+import axios from 'axios';
 
 
 const AddNew = (props) => {
+
+ 
 
   const [name,setName] = useState('');
   const [subject,setSubject] = useState('');
@@ -14,8 +16,7 @@ const AddNew = (props) => {
   const [errorMessage,setErrorMessage] = useState('')
 
   const studentCtx = useContext(studentContext);
-  console.log(studentCtx,'sfsf')
-
+ 
   //closing the add form
   const closeHandler = () =>{
       props.onCloseAdd(false);
@@ -46,9 +47,11 @@ const AddNew = (props) => {
     try {
       const res = await axios.post('http://localhost:8000/student/add',data,{headers:{Authorization:token}});
       if(res.status===201){
-        studentCtx.addStudent(res.data.data)
+        studentCtx.addStudent(res.data.data);
         closeHandler();
+        await props.fetchedSutudents();
       }
+  
   
     } catch (error) {
       setErrorMessage(error.response.data.message)

@@ -1,10 +1,8 @@
 import './App.css';
-import {Button} from 'react-bootstrap'
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import DashBoard from './components/DashBoard';
-import NavbarDashBoard from './components/NavbarDashBoard';
 import Home from './components/Home';
 import AddNew from './components/AddNew';
 import { useState } from 'react';
@@ -17,14 +15,16 @@ function App() {
 
   const [showForm,setShowForm] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [editData,setEditData] = useState('')
+  const [editData,setEditData] = useState('');
+  const [isFetched,setIsFetched] = useState('')
   
   const showAddHandler = (data) =>{
-     setShowForm(data)
+     
+     setShowForm(data.isAdd);
+     setIsFetched(()=>data.fetchedSutudents);
   }
 
   const HideAddHandler = (data)=>{
-    console.log('data',data)
     setShowForm(data);
   }
 
@@ -35,8 +35,9 @@ function App() {
       subject:data.subject,
       marks:data.marks
     }
-    setEditData(updatedData)
-    setShowEdit(data.isEdit)
+    setEditData(updatedData);
+    setShowEdit(data.isEdit);
+    setIsFetched(()=>data.fetchedSutudents);
   }
 
   const HideEditOne = (data)=>{
@@ -50,8 +51,8 @@ function App() {
     
     <Router>
     <StudentProvider>
-     { showForm && <AddNew onCloseAdd={HideAddHandler}/>}
-     {showEdit && <EditOne onCloseEdit={HideEditOne} data={editData}/>}
+     { showForm && <AddNew onCloseAdd={HideAddHandler} fetchedSutudents={isFetched}/>}
+     {showEdit && <EditOne onCloseEdit={HideEditOne} data={editData} fetchedSutudents={isFetched}/>}
     <Routes>
       <Route path='/' element={<AuthRoute element={<RegistrationForm/>}/>}/>
       <Route exact path='/login'   element={<AuthRoute element={<LoginForm/>}/>}/>

@@ -2,7 +2,6 @@ import React from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import {Navbar,Container,Nav} from 'react-bootstrap'
 import './NavbarDashBoard.css';
-import StudentProvider from '../store/StudentProvider';
 
 const NavbarDashBoard = () => {
 
@@ -13,7 +12,6 @@ const NavbarDashBoard = () => {
 
    }
   return (
-    // <StudentProvider>
     <Navbar expand="lg" className="navbar_header">
     <Container className='navbar_content'>
       <Navbar.Brand as={Link} to="/dashboard" className='navbar-link'>DashBoard</Navbar.Brand>
@@ -27,8 +25,6 @@ const NavbarDashBoard = () => {
     </Container>
   </Navbar>
 
-
-    // </StudentProvider>
 );
   
 }
